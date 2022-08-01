@@ -1,0 +1,19 @@
+data_file_path:
+    './data.csv'
+
+# Params for Genetic Algorithm
+n_chromo:
+    4
+limit:
+    1.0
+cross:
+    1
+mutation_prob:
+    0.05
+n_gens:
+    20  
+eps: 
+    0.1 
+eps_count:
+    5
+
