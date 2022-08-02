@@ -3,7 +3,7 @@ data_file_path:
 
 # Params for Genetic Algorithm
 n_chromo:
-    4
+    2
 limit:
     1.0
 cross:
@@ -11,7 +11,7 @@ cross:
 mutation_prob:
     0.05
 n_gens:
-    20  
+    100  
 eps: 
     0.1 
 eps_count:

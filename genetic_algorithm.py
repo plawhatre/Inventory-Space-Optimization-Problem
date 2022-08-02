@@ -242,7 +242,7 @@ class GeneticAlgorithm:
         self.crossover_ops(population_fitness)
         # Stage 3
         print(f"\t\tGeneration {i}, Stage 3: Mutation in progress")
-        self.mutation_ops()
+        # self.mutation_ops()
         print('-'*80)
 
         return sum(population_fitness)
