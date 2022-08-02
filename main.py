@@ -4,8 +4,19 @@ from data_container import DataContainer
 import matplotlib.pyplot as plt
 from genetic_algorithm import GeneticAlgorithm
 import yaml
+import logging
 
 if __name__ == '__main__':
+
+    # set up logger
+    handlers = [logging.FileHandler(__name__+'.log'), logging.StreamHandler()]
+    logging.basicConfig(
+                        handlers = handlers,
+                        format='%(asctime)s.%(msecs)03d %(levelname)s:\t%(message)s', 
+                        datefmt='%m/%d/%Y %I:%M:%S %p',
+                        level=logging.DEBUG)
+                        
+    logger = logging.getLogger(__name__)
 
     # Load params
     with open('params.yaml', 'r') as f:
@@ -21,16 +32,25 @@ if __name__ == '__main__':
     eps = params['eps']
     eps_count = params['eps_count']
 
+    logger.info("Finished loading constants in main")
+
     # Load data
     df = pd.read_csv(data_file_path)
     data_tuple_list = [tuple(x) for x in df.to_records(index=False)]
+    
+    logger.info("Finished loading data in main")
 
     # Create Data Container
     data_container = DataContainer(data_tuple_list)
+
+    logger.info("Created data container")
+
     
     # Start the Genetic Algorithm
     ga = GeneticAlgorithm(n_chromo, data_container, limit, cross, mutation_prob)
     pp = ga.start_simutation(n_gens, eps, eps_count)
+
+    logger.info("Finished running algorithm")
 
     # Plot fitness over generations
     # plt.plot(pp)

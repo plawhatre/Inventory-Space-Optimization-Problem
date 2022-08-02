@@ -2,6 +2,9 @@ from random import choice, choices, random
 from typing import List, Tuple
 import numpy as np
 from data_container import DataContainer, DataObj
+import logging
+
+logger = logging.getLogger(__name__)
 
 class GeneticAlgorithm:
     """ Class for Genetic Algorithm
@@ -25,15 +28,17 @@ class GeneticAlgorithm:
         self.generate_population()
 
     def is_constrained(self, chromosome: List[int]) -> bool:
-        """ Check whether the population respects constraint or not
+        """ Check whether the chromosome respects constraint or not
         Returns
         -------
         boolean value if the constraint is respected
         """
-        if self.limit < sum(chromosome):
-            return True
-        else:
-            return False   
+        # chromosome_space = [data_obj.space for data_obj in self.data_container.get_val_bindices(chromosome)] 
+        # if self.limit < sum(chromosome_space):
+        #     return True
+        # else:
+        #     return False
+        return True   
 
     def generate_chromosome(self) -> List[int]:
         """ Generate Chromosomes
@@ -235,13 +240,13 @@ class GeneticAlgorithm:
         """
         print('-'*80)
         # Stage 1
-        print(f"\t\tGeneration {i}, Stage 1: Selection in progress")
+        logger.info(f"\t\tGeneration {i}, Stage 1: Selection in progress")
         population_fitness = self.selection_ops()
         # Stage 2
-        print(f"\t\tGeneration {i}, Stage 2: Crossover in progress")
+        logger.info(f"\t\tGeneration {i}, Stage 2: Crossover in progress")
         self.crossover_ops(population_fitness)
         # Stage 3
-        print(f"\t\tGeneration {i}, Stage 3: Mutation in progress")
+        logger.info(f"\t\tGeneration {i}, Stage 3: Mutation in progress")
         # self.mutation_ops()
         print('-'*80)
 
@@ -259,13 +264,14 @@ class GeneticAlgorithm:
         -------
         scores: List of score for each generation
         """
+        logger.info("Starting the Genetic Algorithm")
         scores = [] 
         for i in range(n_gens):
-            print(f"Generation {i} in progress......") 
+            logger.info(f"Generation {i} in progress......") 
             score = self.generation(i)
             print('\n')
             print('*-'*25, '*')
-            print(f"Generation {i} scored {score}") 
+            logger.info(f"Generation {i} scored {score}") 
             print('*-'*25, '*\n')
             scores.append(score)
 
@@ -273,7 +279,7 @@ class GeneticAlgorithm:
                 break
         
         self.population_cleanup()
-        print('\nAlgorithm has terminated !!')
+        logger.info('\nAlgorithm has terminated !!')
         
         print('OPTIMAL SOL\n')
         self.print_optimal_solution()
@@ -286,3 +292,11 @@ class GeneticAlgorithm:
         for data_obj in self.data_container.get_val_bindices(self.population[0]):
             print(data_obj)
         
+# if __name__ == '__main__':
+#     logging.basicConfig(filename='main.log', 
+#                         filemode='w', 
+#                         format='%(asctime)s.%(msecs)03d %(levelname)s:\t%(message)s', 
+#                         datefmt='%m/%d/%Y %I:%M:%S %p',
+#                         level=logging.DEBUG)
+                        
+#     logger = logging.getLogger(__name__)

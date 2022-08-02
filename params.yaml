@@ -5,7 +5,7 @@ data_file_path:
 n_chromo:
     2
 limit:
-    1.0
+    2.0
 cross:
     1
 mutation_prob:
@@ -13,7 +13,7 @@ mutation_prob:
 n_gens:
     20  
 eps: 
-    0.1 
+    0.1
 eps_count:
     5
 
