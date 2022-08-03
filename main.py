@@ -9,10 +9,10 @@ import logging
 if __name__ == '__main__':
 
     # set up logger
-    handlers = [logging.FileHandler(__name__+'.log'), logging.StreamHandler()]
+    handlers = [logging.FileHandler(filename='log.log'), logging.StreamHandler()]
     logging.basicConfig(
                         handlers = handlers,
-                        format='%(asctime)s.%(msecs)03d %(levelname)s:\t%(message)s', 
+                        format='%(filename)s %(asctime)s.%(msecs)03d %(levelname)s:\t%(message)s', 
                         datefmt='%m/%d/%Y %I:%M:%S %p',
                         level=logging.DEBUG)
                         

@@ -19,12 +19,12 @@ class GeneticAlgorithm:
         cross : crossover points
         mutation_prob :  Probability of mutation
         """
-        self.n_obj = len(data_container)
         self.n_chromo = n_chromo
         self.data_container = data_container
         self.limit = limit
         self.cross = cross
         self.mutation_prob = mutation_prob
+        self.n_obj = len(data_container)
         self.generate_population()
 
     def is_constrained(self, chromosome: List[int]) -> bool:
@@ -33,12 +33,13 @@ class GeneticAlgorithm:
         -------
         boolean value if the constraint is respected
         """
-        # chromosome_space = [data_obj.space for data_obj in self.data_container.get_val_bindices(chromosome)] 
-        # if self.limit < sum(chromosome_space):
-        #     return True
-        # else:
-        #     return False
-        return True   
+        logger.info("Checking the space constraint")
+        chromosome_space = [data_obj.space for data_obj in self.data_container.get_val_bindices(chromosome)] 
+        if self.limit > sum(chromosome_space):
+            return True
+        else:
+            return False
+        # return True   
 
     def generate_chromosome(self) -> List[int]:
         """ Generate Chromosomes
@@ -46,6 +47,7 @@ class GeneticAlgorithm:
         -------
         Chromosome
         """
+        logger.info("Generating the chromosomes")
         return choices([0,1], k=self.n_obj)
 
     def generate_population(self) -> None:
@@ -59,6 +61,8 @@ class GeneticAlgorithm:
                     self.population.append(chromosome)
                     break  
 
+        logger.info("Generated the population")
+
     @property
     def selected_names(self) -> List[List[str]] :
         """
@@ -66,6 +70,7 @@ class GeneticAlgorithm:
         -------
         names: It returns the names of the products for each chromosome
         """
+        logger.info("Returning the names in population")
         names = [[data_obj.name for data_obj in self.data_container.get_val_bindices(chromo)] 
         for chromo in self.population]
         return names
@@ -77,6 +82,7 @@ class GeneticAlgorithm:
         -------
         profits: It returns the profits on the products for each chromosome
         """
+        logger.info("Returning the profits in population")
         profits = [[data_obj.profit for data_obj in self.data_container.get_val_bindices(chromo)] 
         for chromo in self.population]
         return profits
@@ -88,6 +94,7 @@ class GeneticAlgorithm:
         -------
         spaces: It returns the spaces occupied by the products for each chromosome
         """
+        logger.info("Returning the spaces in population")
         spaces = [[data_obj.space for data_obj in self.data_container.get_val_bindices(chromo)] 
         for chromo in self.population]
         return spaces
@@ -99,6 +106,7 @@ class GeneticAlgorithm:
         -------
         items: It returns the items of the products for each chromosome
         """
+        logger.info("Returning the items in population")
         items = [[data_obj for data_obj in self.data_container.get_val_bindices(chromo)] 
         for chromo in self.population]
         return items
@@ -109,12 +117,14 @@ class GeneticAlgorithm:
         ----
         Fitness means collective profit for each chromosome in our problem
         """
+        logger.info("Checking the fitness of the population")
         return [sum(chromo_profit_list) 
         for chromo_profit_list in self.selected_profits]
 
     def __sort(self, lst_fit: List[int]) -> None:
         """ Sort Chromosomes based on fitness
         """
+        logger.info("Sorting the population based on the fitness")
         self.population = [self.population[i]
         for i in np.argsort(lst_fit)[::-1]]
 
@@ -130,6 +140,7 @@ class GeneticAlgorithm:
         c1 : Child Chromosome 1
         c2 : Child Chromosome 2
         """
+        logger.info("Crossover of chromosomes started")
         mutation_point = 0
         c1 = [0 for _ in range(self.n_obj)]
         c2 = [0 for _ in range(self.n_obj)]
@@ -153,6 +164,7 @@ class GeneticAlgorithm:
             c1[mutation_point:] = p2[mutation_point:]
             c2[mutation_point:] = p1[mutation_point:]  
 
+        logger.info("Crossover of chromosomes complete")
         return c1, c2
 
     def __flip(self,c: List[int]) -> List[int]:
@@ -165,6 +177,7 @@ class GeneticAlgorithm:
         -------
         flip_c : Flipped Chromosome
         """
+        logger.info("Flipping the gene in chromosome")
         flip_c = [i if self.mutation_prob < random() else not(i) for i in c]
         return flip_c
 
@@ -177,6 +190,7 @@ class GeneticAlgorithm:
         fit = self.__fitness()
         prob_i = [f/sum(fit) if sum(fit) !=0 else 0 for f in fit]
         population_fitness = list(map(lambda x: x*self.n_chromo, prob_i))
+        logger.info("Selections ops completed")
         return population_fitness
 
     def crossover_ops(self, population_fitness: List[int]) -> None:
@@ -199,6 +213,8 @@ class GeneticAlgorithm:
                     self.population.append(c2)
                     break
 
+        logger.info("Crossover ops completed")
+
     def mutation_ops(self) -> None:
         """ Mutate chromosomes in population
         """
@@ -208,6 +224,8 @@ class GeneticAlgorithm:
                 if self.is_constrained(chromosome):
                     self.population[i] = chromosome
                     break 
+        
+        logger.info("Mutation ops completed")
 
     def population_cleanup(self) -> None:
         """
@@ -215,6 +233,7 @@ class GeneticAlgorithm:
         """
         self.__sort(self.selection_ops())
         self.population = self.population[:self.n_chromo]
+        logger.info("Final cleanup of population")
 
     @staticmethod
     def can_terminate(scores: List, eps: float=0.1, eps_count: int=5) -> bool:
@@ -225,6 +244,7 @@ class GeneticAlgorithm:
         eps: tolerance for difference in score
         eps_count: minimum count of generations for which fitness diff is small
         """
+        logger.info("Checking for early termination")
         diff = np.diff(scores)
         count = sum(diff > eps)
         return True if count>eps_count else False
@@ -289,6 +309,8 @@ class GeneticAlgorithm:
         """
         Print optimal solutions
         """
+        logger.info("Printing optimal solutions")
+        
         for data_obj in self.data_container.get_val_bindices(self.population[0]):
             print(data_obj)
         
