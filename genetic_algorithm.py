@@ -33,7 +33,6 @@ class GeneticAlgorithm:
         -------
         boolean value if the constraint is respected
         """
-        logger.info("Checking the space constraint")
         chromosome_space = [data_obj.space for data_obj in self.data_container.get_val_bindices(chromosome)] 
         if self.limit > sum(chromosome_space):
             return True
@@ -47,7 +46,6 @@ class GeneticAlgorithm:
         -------
         Chromosome
         """
-        logger.info("Generating the chromosomes")
         return choices([0,1], k=self.n_obj)
 
     def generate_population(self) -> None:
@@ -246,7 +244,7 @@ class GeneticAlgorithm:
         """
         logger.info("Checking for early termination")
         diff = np.diff(scores)
-        count = sum(diff > eps)
+        count = sum(diff < eps)
         return True if count>eps_count else False
 
     def generation(self, i: int) -> int:
