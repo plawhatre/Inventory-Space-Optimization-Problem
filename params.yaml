@@ -11,9 +11,9 @@ cross:
 mutation_prob:
     0.05
 n_gens:
-    100  
+    500  
 eps: 
     0.1
 eps_count:
-    5
+    100
 

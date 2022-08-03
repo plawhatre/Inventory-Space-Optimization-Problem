@@ -311,12 +311,3 @@ class GeneticAlgorithm:
         
         for data_obj in self.data_container.get_val_bindices(self.population[0]):
             print(data_obj)
-        
-# if __name__ == '__main__':
-#     logging.basicConfig(filename='main.log', 
-#                         filemode='w', 
-#                         format='%(asctime)s.%(msecs)03d %(levelname)s:\t%(message)s', 
-#                         datefmt='%m/%d/%Y %I:%M:%S %p',
-#                         level=logging.DEBUG)
-                        
-#     logger = logging.getLogger(__name__)

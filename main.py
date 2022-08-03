@@ -1,7 +1,6 @@
 import numpy as np
 import pandas as pd
 from data_container import DataContainer
-import matplotlib.pyplot as plt
 from genetic_algorithm import GeneticAlgorithm
 import yaml
 import logging
@@ -51,8 +50,4 @@ if __name__ == '__main__':
     pp = ga.start_simutation(n_gens, eps, eps_count)
 
     logger.info("Finished running algorithm")
-
-    # Plot fitness over generations
-    # plt.plot(pp)
-    # plt.show()
 
