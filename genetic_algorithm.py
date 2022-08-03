@@ -245,7 +245,7 @@ class GeneticAlgorithm:
         logger.info("Checking for early termination")
         diff = np.diff(scores)
         count = sum(diff < eps)
-        return True if count<eps_count else False
+        return True if count>eps_count else False
 
     def generation(self, i: int) -> int:
         """ Single pass in Genetic algorithm
