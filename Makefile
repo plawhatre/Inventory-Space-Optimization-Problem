@@ -1,5 +1,5 @@
 run:
-	python3 main.py
+	rm *.log | python3 main.py
 debug:
 	python3 -m pdb main.py
 typehint:
