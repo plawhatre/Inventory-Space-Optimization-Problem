@@ -10,7 +10,7 @@ Consider the following items in the inventory
 |phone|   11   |  0.3  |
 | fan |   11   |  0.5  |
 
-Our goal is to select items from this inventory and load it into a transport.
+The goal is to select items from this inventory and load it into a transport.
 This puts a space constraint on selection. However, the untimate goal is to maximize the profit.
 
 In this repository, Genetic Algorithm is employed to solve this optimization problem. 
