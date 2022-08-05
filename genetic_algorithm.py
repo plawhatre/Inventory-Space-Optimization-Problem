@@ -109,7 +109,7 @@ class GeneticAlgorithm:
         for chromo in self.population]
         return items
  
-    def __fitness(self) -> List[int]:
+    def _fitness(self) -> List[int]:
         """ Computes the fitness of each chromosome in population
         Note
         ----
@@ -119,14 +119,14 @@ class GeneticAlgorithm:
         return [sum(chromo_profit_list) 
         for chromo_profit_list in self.selected_profits]
 
-    def __sort(self, lst_fit: List[int]) -> None:
+    def _sort(self, lst_fit: List[int]) -> None:
         """ Sort Chromosomes based on fitness
         """
         logger.info("Sorting the population based on the fitness")
         self.population = [self.population[i]
         for i in np.argsort(lst_fit)[::-1]]
 
-    def __cross(self, p1: List[int], p2: List[int]) -> Tuple[List[int], List[int]]:
+    def _cross(self, p1: List[int], p2: List[int]) -> Tuple[List[int], List[int]]:
         """ N point crossover
         Args
         ----
@@ -165,7 +165,7 @@ class GeneticAlgorithm:
         logger.info("Crossover of chromosomes complete")
         return c1, c2
 
-    def __flip(self,c: List[int]) -> List[int]:
+    def _flip(self,c: List[int]) -> List[int]:
         """ Flip the gene in the chromosome with prob.
         Args
         ----
@@ -185,7 +185,7 @@ class GeneticAlgorithm:
         -------
         population_fitness : individual chromo's probability 
         """
-        fit = self.__fitness()
+        fit = self._fitness()
         prob_i = [f/sum(fit) if sum(fit) !=0 else 0 for f in fit]
         population_fitness = list(map(lambda x: x*self.n_chromo, prob_i))
         logger.info("Selections ops completed")
@@ -197,7 +197,7 @@ class GeneticAlgorithm:
         ----
         population_fitness  : fitness of individual chromo
         """
-        self.__sort(population_fitness)
+        self._sort(population_fitness)
 
         # kill weak chromosomes
         self.population = self.population[:self.n_chromo]
@@ -205,7 +205,7 @@ class GeneticAlgorithm:
         n_pairs = self.n_chromo // 2
         for pair in range(n_pairs):
             while True:
-                c1, c2 = self.__cross(self.population[2*pair], self.population[2*pair+1])
+                c1, c2 = self._cross(self.population[2*pair], self.population[2*pair+1])
                 if self.is_constrained(c1) and self.is_constrained(c2):
                     self.population.append(c1)
                     self.population.append(c2)
@@ -218,7 +218,7 @@ class GeneticAlgorithm:
         """
         for i, chromo in enumerate(self.population):
             while True:
-                chromosome = self.__flip(chromo)
+                chromosome = self._flip(chromo)
                 if self.is_constrained(chromosome):
                     self.population[i] = chromosome
                     break 
@@ -229,7 +229,7 @@ class GeneticAlgorithm:
         """
         Final evaluation after mutation in last generation 
         """
-        self.__sort(self.selection_ops())
+        self._sort(self.selection_ops())
         self.population = self.population[:self.n_chromo]
         logger.info("Final cleanup of population")
 
