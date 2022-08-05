@@ -62,6 +62,13 @@ class GeneticAlgorithm:
         logger.info("Generated the population")
 
     @property
+    def stats_population(self) -> List[Tuple[float, int]]:
+        """ Compute the profit and space for the items in the population
+        """
+        return [[(data_obj.space, data_obj.profit) for data_obj in self.data_container.get_val_bindices(chromo)] 
+        for chromo in self.population]
+
+    @property
     def selected_names(self) -> List[List[str]] :
         """
         Returns
@@ -265,7 +272,7 @@ class GeneticAlgorithm:
         self.crossover_ops(population_fitness)
         # Stage 3
         logger.info(f"\t\tGeneration {i}, Stage 3: Mutation in progress")
-        # self.mutation_ops()
+        self.mutation_ops()
         print('-'*80)
 
         return sum(population_fitness)
@@ -309,5 +316,10 @@ class GeneticAlgorithm:
         """
         logger.info("Printing optimal solutions")
         
+        cummulative_profit, cummulative_space = 0, 0
         for data_obj in self.data_container.get_val_bindices(self.population[0]):
+            cummulative_profit= cummulative_profit+data_obj.profit
+            cummulative_space= cummulative_space+data_obj.space
             print(data_obj)
+
+        logger.info(f"Cummulative Profit = {cummulative_profit}, Cummlative Space = {cummulative_space}")
