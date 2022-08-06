@@ -315,4 +315,4 @@ class GeneticAlgorithm:
             cummulative_space= cummulative_space+data_obj.space
             print(data_obj)
 
-        logger.info(f"Cummulative Profit = {cummulative_profit}, Cummlative Space = {cummulative_space}")
+        logger.info(f"Cummulative Profit = {cummulative_profit}, Cummulative Space = {cummulative_space}")

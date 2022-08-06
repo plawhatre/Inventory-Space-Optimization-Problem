@@ -25,13 +25,13 @@ DataObj(name='tv2', profit=23, space=0.1)
 DataObj(name='ac', profit=23, space=0.1)
 DataObj(name='fan', profit=11, space=0.5)
 ```
-It has `Cummulative Profit = 102, Cummlative Space = 0.9`
+It has `Cummulative Profit = 102, Cummulative Space = 0.9`
 
 ## Genetic Algorithm's Output 
 
 It generates either of the two solutions
 
-a) `Cummulative Profit = 102, Cummlative Space = 0.7`
+a) `Cummulative Profit = 102, Cummulative Space = 0.7`
 
 ``` python
 OPTIMAL SOL
@@ -42,7 +42,7 @@ DataObj(name='tv2', profit=23, space=0.1)
 DataObj(name='phone', profit=11, space=0.3)
 ```
 
-b) `Cummulative Profit = 102, Cummlative Space = 0.9`
+b) `Cummulative Profit = 102, Cummulative Space = 0.9`
 
 ``` python
 OPTIMAL SOL
