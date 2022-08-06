@@ -1,14 +1,17 @@
-run_default:
-	rm *.log | python3 main.py > stdout.log
+cleanlog:
+	ls | grep *.log | xargs -I {} rm -rf {} 
 
-run:
-	rm *.log | python3 main.py --setdefault 1 > stdout.log
+run_default: cleanlog
+	python3 main.py > stdout.log
 
-debug:
+run: cleanlog
+	python3 main.py --setdefault 1 > stdout.log
+
+debug: cleanlog
 	python3 -m pdb main.py
 
 typehint:
 	mypy  main.py
 
-clean:
-	cat .gitignore | xargs -I {} rm -rf {} | rm -f *.log
+clean: cleanlog
+	cat .gitignore | xargs -I {} rm -rf {} 

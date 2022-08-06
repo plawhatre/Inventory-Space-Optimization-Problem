@@ -299,7 +299,7 @@ class GeneticAlgorithm:
         self.population_cleanup()
         logger.info('\nAlgorithm has terminated !!')
         
-        print('\nOPTIMAL SOL\n')
+        print('OPTIMAL SOL\n')
         self.print_optimal_solution()
         return scores
 
