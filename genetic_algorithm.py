@@ -75,7 +75,7 @@ class GeneticAlgorithm:
         -------
         names: It returns the names of the products for each chromosome
         """
-        logger.info("Returning the names in population")
+        # logger.info("Returning the names in population")
         names = [[data_obj.name for data_obj in self.data_container.get_val_bindices(chromo)] 
         for chromo in self.population]
         return names
@@ -87,7 +87,7 @@ class GeneticAlgorithm:
         -------
         profits: It returns the profits on the products for each chromosome
         """
-        logger.info("Returning the profits in population")
+        # logger.info("Returning the profits in population")
         profits = [[data_obj.profit for data_obj in self.data_container.get_val_bindices(chromo)] 
         for chromo in self.population]
         return profits
@@ -99,7 +99,7 @@ class GeneticAlgorithm:
         -------
         spaces: It returns the spaces occupied by the products for each chromosome
         """
-        logger.info("Returning the spaces in population")
+        # logger.info("Returning the spaces in population")
         spaces = [[data_obj.space for data_obj in self.data_container.get_val_bindices(chromo)] 
         for chromo in self.population]
         return spaces
@@ -111,7 +111,7 @@ class GeneticAlgorithm:
         -------
         items: It returns the items of the products for each chromosome
         """
-        logger.info("Returning the items in population")
+        # logger.info("Returning the items in population")
         items = [[data_obj for data_obj in self.data_container.get_val_bindices(chromo)] 
         for chromo in self.population]
         return items
@@ -122,14 +122,14 @@ class GeneticAlgorithm:
         ----
         Fitness means collective profit for each chromosome in our problem
         """
-        logger.info("Checking the fitness of the population")
+        # logger.info("Checking the fitness of the population")
         return [sum(chromo_profit_list) 
         for chromo_profit_list in self.selected_profits]
 
     def _sort(self, lst_fit: List[int]) -> None:
         """ Sort Chromosomes based on fitness
         """
-        logger.info("Sorting the population based on the fitness")
+        # logger.info("Sorting the population based on the fitness")
         self.population = [self.population[i]
         for i in np.argsort(lst_fit)[::-1]]
 
@@ -145,7 +145,7 @@ class GeneticAlgorithm:
         c1 : Child Chromosome 1
         c2 : Child Chromosome 2
         """
-        logger.info("Crossover of chromosomes started")
+        # logger.info("Crossover of chromosomes started")
         mutation_point = 0
         c1 = [0 for _ in range(self.n_obj)]
         c2 = [0 for _ in range(self.n_obj)]
@@ -169,7 +169,7 @@ class GeneticAlgorithm:
             c1[mutation_point:] = p2[mutation_point:]
             c2[mutation_point:] = p1[mutation_point:]  
 
-        logger.info("Crossover of chromosomes complete")
+        # logger.info("Crossover of chromosomes complete")
         return c1, c2
 
     def _flip(self,c: List[int]) -> List[int]:
@@ -182,7 +182,7 @@ class GeneticAlgorithm:
         -------
         flip_c : Flipped Chromosome
         """
-        logger.info("Flipping the gene in chromosome")
+        # logger.info("Flipping the gene in chromosome")
         flip_c = [i if self.mutation_prob < random() else not(i) for i in c]
         return flip_c
 
@@ -192,10 +192,8 @@ class GeneticAlgorithm:
         -------
         population_fitness : individual chromo's probability 
         """
-        fit = self._fitness()
-        prob_i = [f/sum(fit) if sum(fit) !=0 else 0 for f in fit]
-        population_fitness = list(map(lambda x: x*self.n_chromo, prob_i))
-        logger.info("Selections ops completed")
+        population_fitness = self._fitness()
+        logger.info("\t\t\tSelections ops completed")
         return population_fitness
 
     def crossover_ops(self, population_fitness: List[int]) -> None:
@@ -218,7 +216,7 @@ class GeneticAlgorithm:
                     self.population.append(c2)
                     break
 
-        logger.info("Crossover ops completed")
+        logger.info("\t\t\tCrossover ops completed")
 
     def mutation_ops(self) -> None:
         """ Mutate chromosomes in population
@@ -230,15 +228,15 @@ class GeneticAlgorithm:
                     self.population[i] = chromosome
                     break 
         
-        logger.info("Mutation ops completed")
+        logger.info("\t\t\tMutation ops completed")
 
     def population_cleanup(self) -> None:
         """
         Final evaluation after mutation in last generation 
         """
+        logger.info("Final cleanup of population")
         self._sort(self.selection_ops())
         self.population = self.population[:self.n_chromo]
-        logger.info("Final cleanup of population")
 
     @staticmethod
     def can_terminate(scores: List, eps: float=0.1, eps_count: int=5) -> bool:
@@ -249,7 +247,7 @@ class GeneticAlgorithm:
         eps: tolerance for difference in score
         eps_count: minimum count of generations for which fitness diff is small
         """
-        logger.info("Checking for early termination")
+        logger.info("Checking for early termination\n")
         diff = np.diff(scores)
         count = sum(diff < eps)
         return True if count>eps_count else False
@@ -263,7 +261,6 @@ class GeneticAlgorithm:
         -------
         Total Fitness of the chromosomes of current generation
         """
-        print('-'*80)
         # Stage 1
         logger.info(f"\t\tGeneration {i}, Stage 1: Selection in progress")
         population_fitness = self.selection_ops()
@@ -273,7 +270,6 @@ class GeneticAlgorithm:
         # Stage 3
         logger.info(f"\t\tGeneration {i}, Stage 3: Mutation in progress")
         self.mutation_ops()
-        print('-'*80)
 
         return sum(population_fitness)
 
@@ -294,10 +290,7 @@ class GeneticAlgorithm:
         for i in range(n_gens):
             logger.info(f"Generation {i} in progress......") 
             score = self.generation(i)
-            print('\n')
-            print('*-'*25, '*')
             logger.info(f"Generation {i} scored {score}") 
-            print('*-'*25, '*\n')
             scores.append(score)
 
             if GeneticAlgorithm.can_terminate(scores, eps, eps_count):
@@ -306,7 +299,7 @@ class GeneticAlgorithm:
         self.population_cleanup()
         logger.info('\nAlgorithm has terminated !!')
         
-        print('OPTIMAL SOL\n')
+        print('\nOPTIMAL SOL\n')
         self.print_optimal_solution()
         return scores
 

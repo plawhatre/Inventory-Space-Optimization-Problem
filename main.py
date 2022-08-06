@@ -6,6 +6,7 @@ from genetic_algorithm import GeneticAlgorithm
 from greedy_algorithm import GreedyAlgorithm
 import yaml
 import logging
+import argparse
 
 from greedy_algorithm import GreedyAlgorithm
 
@@ -35,6 +36,9 @@ if __name__ == '__main__':
     eps = params['eps']
     eps_count = params['eps_count']
 
+    if not isinstance(eps_count, int):
+        eps_count = n_gens
+
     logger.info("Finished loading constants in main")
 
     # Load data
@@ -49,12 +53,20 @@ if __name__ == '__main__':
     logger.info("Created data container")
 
     
-    # Start the Genetic Algorithm
-    # ga = GeneticAlgorithm(n_chromo, data_container, limit, cross, mutation_prob)
-    # pp = ga.start_simutation(n_gens, eps, eps_count)
-    
-    ga = GreedyAlgorithm(data_container, limit)
-    ga.start()
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--setdefault', help="Run Genetic algorithm")
+    args = parser.parse_args()
+    if args.setdefault:
+        # Start the Genetic Algorithm
+        ga = GeneticAlgorithm(n_chromo, data_container, limit, cross, mutation_prob)
+        pp = ga.start_simutation(n_gens, eps, eps_count)
+        # import matplotlib.pyplot as plt
+        # plt.plot(pp)
+        # plt.show()
+    else:
+        # Start the Greedy Algorithm
+        ga = GreedyAlgorithm(data_container, limit)
+        ga.start()
 
-    logger.info("Finished running algorithm")
+    logger.info("Finished runing algorithm")
 
