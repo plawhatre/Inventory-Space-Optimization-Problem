@@ -62,7 +62,7 @@ class GeneticAlgorithm:
         logger.info("Generated the population")
 
     @property
-    def stats_population(self) -> List[Tuple[float, int]]:
+    def stats_population(self) -> List[List[Tuple[float, int]]]:
         """ Compute the profit and space for the items in the population
         """
         return [[(data_obj.space, data_obj.profit) for data_obj in self.data_container.get_val_bindices(chromo)] 
