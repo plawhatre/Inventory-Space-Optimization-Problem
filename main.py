@@ -59,7 +59,7 @@ if __name__ == '__main__':
     if args.setdefault:
         # Start the Genetic Algorithm
         ga = GeneticAlgorithm(n_chromo, data_container, limit, cross, mutation_prob)
-        pp = ga.start_simutation(n_gens, eps, eps_count)
+        _ = ga.start_simutation(n_gens, eps, eps_count)
 
     else:
         # Start the Greedy Algorithm
