@@ -1,5 +1,5 @@
 cleanlog:
-	ls | grep *.log | xargs -I {} rm -rf {} 
+	ls | grep .log | xargs -I {} rm -rf {} 
 
 run_default: cleanlog
 	python3 main.py > stdout.log
