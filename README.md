@@ -13,4 +13,4 @@ Consider the following items in the inventory
 The goal is to select items from this inventory and load it into a transport.
 This puts a space constraint on selection. However, the untimate objective is to maximize the profit.
 
-In this repository, Genetic Algorithm is employed to solve this optimization problem. 
+In this repository, Greedy and Genetic Algorithm is employed to solve this optimization problem. 
