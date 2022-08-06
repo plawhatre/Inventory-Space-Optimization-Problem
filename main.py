@@ -60,9 +60,7 @@ if __name__ == '__main__':
         # Start the Genetic Algorithm
         ga = GeneticAlgorithm(n_chromo, data_container, limit, cross, mutation_prob)
         pp = ga.start_simutation(n_gens, eps, eps_count)
-        # import matplotlib.pyplot as plt
-        # plt.plot(pp)
-        # plt.show()
+
     else:
         # Start the Greedy Algorithm
         ga = GreedyAlgorithm(data_container, limit)
