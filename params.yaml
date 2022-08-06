@@ -15,5 +15,5 @@ n_gens:
 eps: 
     0.1
 eps_count:
-    100
+    200
 

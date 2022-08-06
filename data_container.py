@@ -46,6 +46,15 @@ class DataContainer:
         """
         return self.container.__getitem__(n)
 
+    def __setitem__(self, n: int, val: DataObj) -> None:
+        """ Gets product according to the index
+        Args
+        -------
+        n: Index for insertion
+        val: Value to be inserted at index
+        """
+        self.container.__setitem__(n, val)
+
     def get_val_indices(self, indices: List[int]) -> List[DataObj]:
         """ Gets product according to the indices
         Returns

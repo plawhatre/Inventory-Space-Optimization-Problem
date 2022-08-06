@@ -3,8 +3,11 @@ import numpy as np
 import pandas as pd
 from data_container import DataContainer
 from genetic_algorithm import GeneticAlgorithm
+from greedy_algorithm import GreedyAlgorithm
 import yaml
 import logging
+
+from greedy_algorithm import GreedyAlgorithm
 
 if __name__ == '__main__':
 
@@ -47,8 +50,11 @@ if __name__ == '__main__':
 
     
     # Start the Genetic Algorithm
-    ga = GeneticAlgorithm(n_chromo, data_container, limit, cross, mutation_prob)
-    pp = ga.start_simutation(n_gens, eps, eps_count)
+    # ga = GeneticAlgorithm(n_chromo, data_container, limit, cross, mutation_prob)
+    # pp = ga.start_simutation(n_gens, eps, eps_count)
+    
+    ga = GreedyAlgorithm(data_container, limit)
+    ga.start()
 
     logger.info("Finished running algorithm")
 
