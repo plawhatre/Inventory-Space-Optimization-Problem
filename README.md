@@ -1,4 +1,4 @@
-# TransportationProblem
+# Inventory Space Optimization Problem
 
 Consider the following items in the inventory
 
